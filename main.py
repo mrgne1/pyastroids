@@ -1,3 +1,4 @@
+from player import Player
 import pygame
 import os
 from constants import *
@@ -10,8 +11,10 @@ def main():
     screen = pygame.display.set_mode(size=(SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0
+    player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
     while True:
-        screen.fill((0, 0, 0))
+        screen.fill(color="black")
+        player.draw(screen=screen)
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
