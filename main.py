@@ -5,6 +5,7 @@ from player import Player
 import pygame
 import os
 from constants import *
+from shot import Shot
 
 os.environ['SDL_AUDIODRIVER'] = 'dsp'
 
@@ -13,11 +14,15 @@ def main():
     screen = pygame.display.set_mode(size=(SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
 
-    updatable, drawable = pygame.sprite.Group(), pygame.sprite.Group()
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
-    Asteroid.containers = (updatable, drawable)
+    Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable)
+    Shot.containers = (updatable, drawable, shots)
 
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
     field = AsteroidField()
@@ -31,8 +36,8 @@ def main():
         for s in updatable:
             s.update(dt=dt)
 
-        for s in drawable:
-            if s != player and s.has_collided_with(player):
+        for s in asteroids:
+            if s.has_collided_with(player):
                 print("Game over!")
                 sys.exit()
 
